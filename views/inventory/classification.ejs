@@ -1,9 +1,9 @@
 <% if (title) { %>
-    <h1><%= title %></h1>
-    <% } else {
-      res.redirect('/')
-    } %>
+  <h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
 
-    <%# messages() %>
-
-    <%- grid %>
+<div class="vehicle-grid">
+  <%- grid %>
+</div>

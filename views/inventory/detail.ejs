@@ -1,0 +1,15 @@
+<main class="vehicle-container">
+    <h1><%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %></h1>
+
+    <div class="vehicle-detail">
+        <img src="<%= vehicle.inv_image %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+        
+        <div class="vehicle-info">
+            <p><strong><%= vehicle.inv_make %> <%= vehicle.inv_model %> Details</strong></p>
+            <p><strong>Price:</strong> $<%= vehicle.inv_price.toLocaleString() %></p>
+            <p><strong>Description:</strong> <%= vehicle.inv_description %></p>
+            <p><strong>Miles:</strong> <%= vehicle.inv_miles.toLocaleString() %></p>
+        </div>
+    </div>
+</main>
+
