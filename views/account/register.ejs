@@ -32,3 +32,18 @@
         <button type="submit">Register</button>
     </form>
 </div>
+<script>
+  const pswdBtn = document.querySelector('#pwordBtn');
+  pswdBtn.addEventListener('click', function(){
+    const pswdInput = document.querySelector('#account_password');
+    const type = pswdInput.getAttribute('type');
+      if (type == 'password'){
+          pswdInput.setAttribute('type', 'text');
+          pswdBtn.innerHTML = "&#128275;"
+      }
+      else{
+          pswdInput.setAttribute('type', 'password');
+          pswdBtn.innerHTML = "&#128274;"
+      }
+  })
+</script>

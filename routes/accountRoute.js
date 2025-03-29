@@ -8,6 +8,8 @@ const regValidate = require('../utilities/account-validation')
 // Definindo a rota para o caminho '/account' 
 router.get("/login", utilities.handleErrors(accountController.buildLogin))
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
+router.get('/logout', utilities.handleErrors(accountController.accountLogout))
+
 
 // Process the registration data
 router.post(
@@ -17,6 +19,12 @@ router.post(
   utilities.handleErrors(accountController.registerAccount) // Controlador
 )
 
+router.post(
+  "/",
+  regValidate.LoginRules(),
+  regValidate.checkLoginData,
+  utilities.handleErrors(accountController.accountLogin)
+)
 
 // Middleware de erro
 router.use((err, req, res, next) => {
