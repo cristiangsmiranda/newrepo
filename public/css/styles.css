@@ -311,7 +311,10 @@ footer {
   margin-bottom: 10px;
 }
 
-.login-form, .register-form {
+.login-form,
+.register-form,
+.classification-form,
+.inventory-form {
   width: 500px;
   margin: auto;
   background-color: #2c3e50;
@@ -322,7 +325,10 @@ footer {
   box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
-.login-form label, .register-form label {
+.login-form label,
+.register-form label,
+.classification-form label,
+.inventory-form label {
   display: block;
   margin-bottom: 15px;
   font-size: 16px;
@@ -333,14 +339,20 @@ footer {
 .register-form input[type="email"],
 .register-form input[type="password"],
 .login-form input[type="email"],
-.login-form input[type="password"] {
+.login-form input[type="password"]
+.classification-form input[type="text"],
+.inventory-form[type="text"],
+.inventory-form[type="number"] {
   width: 100%;
   padding: 10px;
   border: none;
   border-radius: 5px;
 }
 
-.login-form button, .register-form button {
+.login-form button,
+.register-form button,
+.classification-form button,
+.inventory-form button {
   width: 100px;
   padding: 10px;
   background-color: #ecf0f1;
@@ -353,7 +365,18 @@ footer {
   margin: 20px auto;
 }
 
-.login-form p, .register-form p{
+.login-form button:hover,
+.register-form button:hover,
+.classification-form button:hover,
+.inventory-form button:hover {
+  background-color: #bbbdbd;
+  color: #19232d;
+}
+
+.login-form p,
+.register-form p,
+.classification-form p,
+.inventory-form p {
   text-align: center;
   margin-top: 10px;
 }
@@ -362,6 +385,57 @@ footer {
   color: #fff;
   text-decoration: underline;
 }
+
+/* management view */
+
+.management a.button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.management a.button:hover {
+  background-color: #45a049;
+}
+
+.management_form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.management_form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+.management_form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.management_form button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.management_form button:hover {
+  background-color: #45a049;
+}
+
 
 
 @media screen and (max-width: 768px) {

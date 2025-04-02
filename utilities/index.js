@@ -4,25 +4,33 @@ const Util = {}
 /* ************************
  * Constructs the nav HTML unordered list
  ************************** */
-Util.getNav = async function (req, res, next) {
-  let data = await invModel.getClassifications()
-  let list = "<ul>"
-  list += '<li><a href="/" title="Home page">Home</a></li>'
-  data.rows.forEach((row) => {
-    list += "<li>"
-    list +=
-      '<a href="/inv/type/' +
-      row.classification_id +
-      '" title="See our inventory of ' +
-      row.classification_name +
-      ' vehicles">' +
-      row.classification_name +
-      "</a>"
-    list += "</li>"
-  })
-  list += "</ul>"
-  return list
-}
+Util.getNav = async function () {
+  let data = await invModel.getClassifications();
+
+  // Verifica se os dados foram carregados corretamente
+  console.log("Nav Data:", data); // <-- Adiciona um log para depuração
+
+  // Se data for null ou um array vazio, retorna apenas Home e New Car
+  if (!data || data.length === 0) {
+    console.error("Error: No classification data found.");
+    return [
+      { name: "Home", url: "/" },
+      { name: "New Car", url: "/inv/management" }
+    ];
+  }
+
+  // Constrói a navegação como um array de objetos
+  let navItems = [
+    { name: "Home", url: "/" },
+    ...data.map(row => ({
+      name: row.classification_name,
+      url: `/inv/type/${row.classification_id}`
+    })),
+    { name: "New Car", url: "/inv/management" }
+  ];
+
+  return navItems;
+};
 
 /* **************************************
 * Build the classification view HTML
@@ -65,5 +73,33 @@ Util.handleErrors = fn => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
 
 
+/* ****************************************
+ * Build Classification Dropdown List
+ **************************************** */
+Util.buildClassificationList = async function (selectedId = null) {
+  let data = await invModel.getClassifications();
 
-module.exports = Util
+  if (!data || data.length === 0) {
+    console.error("Error: No classification data found.");
+    return '<select name="classification_id"><option value="">No classifications found</option></select>';
+  }
+
+  let dropdown = `<select name="classification_id" id="classification_id" required>`;
+  dropdown += `<option value="">Select a Classification</option>`;
+
+  data.forEach(row => {
+    let selected = row.classification_id == selectedId ? "selected" : "";
+    dropdown += `<option value="${row.classification_id}" ${selected}>${row.classification_name}</option>`;
+  });
+
+  dropdown += `</select>`;
+  return dropdown;
+};
+
+
+module.exports = {
+  getNav: Util.getNav,
+  buildClassificationGrid: Util.buildClassificationGrid,
+  handleErrors: Util.handleErrors,
+  buildClassificationList: Util.buildClassificationList, // Adicione esta linha
+};

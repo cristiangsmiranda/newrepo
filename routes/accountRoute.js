@@ -20,7 +20,7 @@ router.post(
 )
 
 router.post(
-  "/",
+  "/login",
   regValidate.LoginRules(),
   regValidate.checkLoginData,
   utilities.handleErrors(accountController.accountLogin)
