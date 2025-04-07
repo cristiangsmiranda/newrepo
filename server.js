@@ -12,12 +12,13 @@ const app = express()
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute")
-const utilities = require('./utilities')
+const utilities = require("./utilities/")
 const session = require("express-session")
 const pool = require('./database/')
 const accountRoute = require("./routes/accountRoute")
-const bodyParser = require("body-parser");
-
+const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
+const path = require("path")
 
 
 /* ***********************
@@ -40,36 +41,48 @@ app.use(function(req, res, next){
   res.locals.messages = require('express-messages')(req, res)
   next()
 })
+//unit 4, process registration activity
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(cookieParser())
+app.use(utilities.checkJWTToken)
 
-
-/* ***********************
- * View Engine and Templates
- *************************/
-app.set("view engine", "ejs")
-app.use(expressLayouts)
-app.set("layout", "./layouts/layout") // not at views root
+//middleware to get user information
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
 
 /* ***********************
  * Routes
  *************************/
+/* ***********************
+ * View Engine and Templates
+ *************************/
+app.set("view engine", "ejs")
+app.set("views", path.join(__dirname, "views"))
+app.use(expressLayouts)
+app.set("layout", "./layouts/layout") // not at views root
+
 app.use(static)
 
-// index route
-app.get("/", utilities.handleErrors(baseController.buildHome));
+// Index route
+app.get("/", utilities.handleErrors(baseController.buildHome))
 // Inventory routes
 app.use("/inv", inventoryRoute)
-// account route
+// Account routes
 app.use("/account", accountRoute)
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
-  next({ status: 404, message: 'Sorry, we appear to have lost that page.' })
+  next({status: 404, message: 'Sorry, we appear to have lost that page.'})
 })
 
 
-
+/* ***********************
+ * Local Server Information
+ * Values from .env (environment) file
+ *************************/
 
 /* ***********************
 * Express Error Handler
@@ -86,13 +99,6 @@ app.use(async (err, req, res, next) => {
   })
 })
 
-
-
-
-/* ***********************
- * Local Server Information
- * Values from .env (environment) file
- *************************/
 const port = process.env.PORT
 const host = process.env.HOST
 

@@ -264,46 +264,134 @@ footer {
 }
 
 
+
+
+
+
+
+
 /* ===== Estilos para a página de detalhes do veículo ===== */
-.vehicle-container {
-  width: 80%;
+
+ul#inv-display{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 0.5rem;
+  row-gap: 0.5rem;
   margin: 20px auto;
   background-color: white;
 }
 
-.vehicle-container h1 {
-  text-align: left;
-  margin-bottom: 20px;
-}
-
-.vehicle-detail {
+#inv-display li{
   display: flex;
+  flex-direction: row;
+  justify-content:flex-start;
   align-items: center;
-  justify-content: space-between;
+  border: 2px solid #000000;
+  border-radius: 10px;
 }
 
-.vehicle-detail img {
-  width: 400px;
-  height: auto;
+#inv-display li img{
+  width: auto;
+  height: 100%;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.vehicle-info {
-  width: 50%;
-  padding-left: 30px;
+.namePrice{
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  width: 100%;
+  margin: 0 1rem 1rem 1rem;
 }
 
-.vehicle-info p {
-  margin: 10px 0;
-  font-size: 18px;
-  margin-bottom: 30px;
-
+.namePrice h2{
+  padding: .5rem;  
+  margin-top: 0;
 }
 
-.vehicle-info strong {
-  color: #000000;
+.namePrice a{
+  text-decoration: none;
+  color: black;
+  margin-top: 0;
 }
+
+.namePrice hr{
+  display: none;
+}
+
+.namePrice span{
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  padding: .5rem;
+}
+
+#details-display{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(37, 220, 141, 0.3);
+  margin: 1rem;
+  border: 5px solid aliceblue;
+  border-radius: 5px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.details-img{
+  width: 100%;
+  text-align: center;
+}
+
+.img-detail{
+  margin: 1rem;
+  border-radius: 5px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.details-data{
+  margin: 0 0rem 0rem 2rem;
+}
+
+.details-data a{
+  text-decoration: none;
+  color: black;
+}
+
+.details-data h2{
+  font-size: 1.5rem;
+  padding: .5rem;
+  padding-top: 0;
+}
+
+.details-data span{
+  font-size: 1.5rem;
+  padding: .5rem;
+}
+
+.details-data p{
+  padding: .5rem;
+  font-size: 1.3rem;
+}
+
+.details-data p:nth-child(3), 
+.details-data p:nth-child(5){
+  background-color: aliceblue; 
+}
+
+#error-wrapper, #error-img, #error-img img{
+  width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 .title {
   font-size: 22px;
@@ -312,7 +400,6 @@ footer {
 }
 
 .login-form,
-.register-form,
 .classification-form,
 .inventory-form {
   width: 500px;
@@ -326,7 +413,6 @@ footer {
 }
 
 .login-form label,
-.register-form label,
 .classification-form label,
 .inventory-form label {
   display: block;
@@ -335,11 +421,9 @@ footer {
 }
 
 
-.register-form input[type="text"],
-.register-form input[type="email"],
-.register-form input[type="password"],
 .login-form input[type="email"],
-.login-form input[type="password"]
+.login-form input[type="password"],
+.login-form input[type="text"],
 .classification-form input[type="text"],
 .inventory-form[type="text"],
 .inventory-form[type="number"] {
@@ -350,7 +434,6 @@ footer {
 }
 
 .login-form button,
-.register-form button,
 .classification-form button,
 .inventory-form button {
   width: 100px;
@@ -366,7 +449,6 @@ footer {
 }
 
 .login-form button:hover,
-.register-form button:hover,
 .classification-form button:hover,
 .inventory-form button:hover {
   background-color: #bbbdbd;
@@ -374,14 +456,13 @@ footer {
 }
 
 .login-form p,
-.register-form p,
 .classification-form p,
 .inventory-form p {
   text-align: center;
   margin-top: 10px;
 }
 
-.login-form a, .register-form a {
+.login-form a {
   color: #fff;
   text-decoration: underline;
 }

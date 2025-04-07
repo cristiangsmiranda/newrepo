@@ -1,29 +1,28 @@
+<% if (title) { %>
+  <h1><%= title %></h1>
+  <% } else {
+    res.redirect('/')
+  } %>
+
 <%- messages() %>
 
-<% if (errors && errors.length > 0) { %>
+<% if (errors) { %>
   <ul class="notice">
-    <% errors.forEach(error => { %>
-      <li><%= error.msg %></li>
-    <% }) %>
-  </ul>
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
 <% } %>
 
 <h1>Add Inventory!</h1>
 <div class="inventory-form">
-  <form action="/inv/add-inventory" method="POST">
-    <p>Field is required</p>
+  <form id="management_form" action="/inv/add-inventory" method="post">
+    <p>All fields is required</p>
     <fieldset>
       <label for="classification_id">Classification:</label>
-      <select name="classification_id" id="classification_id" required>
-        <option value="">Select Classification</option>
-        <% classifications.forEach(classification => { %> <!-- Alterado de classificationList para classifications -->
-          <option value="<%= classification.classification_id %>" <%= locals.classification_id === classification.classification_id ? 'selected' : '' %> >  
-            <%= classification.classification_name %>
-          </option>
-        <% }) %>
-      </select>
+      <%- classificationList %> <!-- aqui o HTML é injetado diretamente -->
       <!-- Vehicle make -->
-      <label for="inv_make">Make</label>
+      <label for="inv_make">Make:</label>
       <input 
         type="text" 
         id="inv_make" 
@@ -33,7 +32,7 @@
         minlength="2">
   
       <!-- Vehicle model -->
-      <label for="inv_model">Model</label>
+      <label for="inv_model">Model:</label>
       <input 
         type="text" 
         id="inv_model" 
@@ -43,7 +42,7 @@
         minlength="2">
   
       <!-- Vehicle description -->
-      <label for="inv_description">Description</label>
+      <label for="inv_description">Description:</label>
       <textarea 
         id="inv_description" 
         name="inv_description" 
@@ -51,7 +50,7 @@
         minlength="10"><%= typeof inv_description !== 'undefined' ? inv_description : '' %></textarea>
   
       <!-- Vehicle image path -->
-      <label for="inv_image">Image Path</label>
+      <label for="inv_image">Image Path:</label>
       <input 
         type="text" 
         id="inv_image" 
@@ -62,7 +61,7 @@
         title="Image path must be a valid image file (jpg, jpeg, png, gif).">
   
       <!-- Vehicle thumbnail path -->
-      <label for="inv_thumbnail">Thumbnail Path</label>
+      <label for="inv_thumbnail">Thumbnail Path:</label>
       <input 
         type="text" 
         id="inv_thumbnail" 
@@ -73,7 +72,7 @@
         title="Thumbnail path must be a valid image file (jpg, jpeg, png, gif).">
 
       <!-- Vehicle year -->
-      <label for="inv_year">Year</label>
+      <label for="inv_year">Year:</label>
       <input 
         type="text" 
         id="inv_year" 
@@ -84,7 +83,7 @@
         title="Year must be a 4-digit number.">
   
       <!-- Vehicle price -->
-      <label for="inv_price">Price</label>
+      <label for="inv_price">Price:</label>
       <input 
         type="number" 
         id="inv_price" 
@@ -95,7 +94,7 @@
         step="0.01">
   
       <!-- Vehicle miles -->
-      <label for="inv_miles">Miles</label>
+      <label for="inv_miles">Miles:</label>
       <input 
         type="number" 
         id="inv_miles" 
@@ -105,7 +104,7 @@
         min="0">
   
       <!-- Vehicle color -->
-      <label for="inv_color">Color</label>
+      <label for="inv_color">Color:</label>
       <input 
         type="text" 
         id="inv_color" 

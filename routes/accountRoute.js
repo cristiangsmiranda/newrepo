@@ -1,36 +1,47 @@
-// Importações necessárias
-const express = require("express");
-const router = new express.Router();
-const accountController = require("../controllers/accountController");
-const utilities = require("../utilities");
+// Needed Resources 
+const express = require("express")
+const router = new express.Router() 
+const accountController = require("../controllers/accountController")
+const utilities = require("../utilities")
 const regValidate = require('../utilities/account-validation')
 
-// Definindo a rota para o caminho '/account' 
+// Route to build account
 router.get("/login", utilities.handleErrors(accountController.buildLogin))
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement))
 router.get('/logout', utilities.handleErrors(accountController.accountLogout))
-
-
+router.get("/update", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement))
 // Process the registration data
 router.post(
-  "/register",
-  regValidate.registationRules(),   // Validação
-  regValidate.checkRegData,         // Verificação dos dados
-  utilities.handleErrors(accountController.registerAccount) // Controlador
+    "/register",
+    regValidate.registationRules(),
+    regValidate.checkRegData,
+    utilities.handleErrors(accountController.registerAccount)
 )
 
+// Process the login attempt
 router.post(
-  "/login",
-  regValidate.LoginRules(),
-  regValidate.checkLoginData,
-  utilities.handleErrors(accountController.accountLogin)
+    "/",
+    regValidate.LoginRules(),
+    regValidate.checkLoginData,
+    utilities.handleErrors(accountController.accountLogin)
 )
 
-// Middleware de erro
-router.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).send("Algo deu errado!");
-});
+// Process the update account data
+router.post(
+    "/updateAccount",
+    regValidate.updateAccountRules(),
+    regValidate.checkUpdateAccountData,
+    utilities.handleErrors(accountController.updateAccount)
+)
 
-// Exportando a rota para uso em outros arquivos
+// Process the update account data
+router.post(
+    "/updatePassword",
+    regValidate.updatePasswordRules(),
+    regValidate.checkUpdatePasswordData,
+    utilities.handleErrors(accountController.updatePassword)
+)
+
+
 module.exports = router;

@@ -2,34 +2,48 @@
 const express = require("express")
 const router = new express.Router() 
 const invController = require("../controllers/invController")
-const utilities = require('../utilities')
-const validate = require("../utilities/inventory-validation")
+const utilities = require("../utilities/")
+const invValidate = require('../utilities/inventory-validation')
 
 
+// Route to build inventory 
+router.get("/", utilities.checkAuthorization, utilities.handleErrors(invController.buildManagement))
+router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId))
+router.get("/detail/:invId", utilities.handleErrors(invController.buildByInvId))
+router.get("/detail/", utilities.handleErrors(invController.buildByInvId))
+router.get("/add-classification/", utilities.checkAuthorization, utilities.handleErrors(invController.buildAddClassification))
+router.get("/add-inventory/", utilities.checkAuthorization, utilities.handleErrors(invController.buildAddInventory))
+router.get("/getInventory/:classification_id", utilities.checkAuthorization, utilities.handleErrors(invController.getInventoryJSON))
+//Edit Inventory route
+router.get("/edit/:invId", utilities.checkAuthorization, utilities.handleErrors(invController.editInventoryView))
+router.get("/delete/:invId", utilities.checkAuthorization, utilities.handleErrors(invController.deleteView))
 
-// Route to build inventory by classification view
-router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId));
-router.get("/detail/:vehicleId", utilities.handleErrors(invController.getVehicleDetail));
-router.get('/trigger-error', utilities.handleErrors(invController.triggerError));
-// Exibir a página de gerenciamento do inventário
-router.get("/management", utilities.handleErrors(invController.showManagement));
-router.get("/add-classification",utilities.handleErrors(invController.showAddClassification));
-router.get("/add-inventory",utilities.handleErrors(invController.showAddInventory));
 
-
+// Process the classification data
 router.post(
     "/add-classification",
-    validate.classificationRules(), 
-    validate.checkClassData, 
-    utilities.handleErrors(invController.processAddClassification)
-);
+    invValidate.classificationRules(),
+    invValidate.checkClassData,
+    utilities.handleErrors(invController.manageClassification)
+  )
 
-
+// Process the classification data
 router.post(
-    "/add-inventory",
-    validate.inventoryRules(), 
-    validate.checkInventoryData, 
-    utilities.handleErrors(invController.addInventory)
-);
+  "/add-inventory",
+  invValidate.inventoryRules(),
+  invValidate.checkInventoryData,
+  utilities.handleErrors(invController.manageInventory)
+)
+
+//update Inventory route
+router.post("/update", 
+  invValidate.newInventoryRules(),
+  invValidate.checkUpdateData,
+  utilities.handleErrors(invController.updateInventory))
+
+//delete Inventory route
+router.post("/delete", 
+  utilities.handleErrors(invController.deleteItem))
+
 
 module.exports = router;

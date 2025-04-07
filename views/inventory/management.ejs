@@ -6,7 +6,7 @@
 
 <%- messages() %>
 
-<% if (errors && errors.length > 0) { %>
+<% if (errors) { %>
   <ul class="notice">
  <% errors.array().forEach(error => { %>
    <li><%= error.msg %></li>
@@ -14,10 +14,36 @@
  </ul>
 <% } %>
 
-<a href="/inv/add-classification">Add New Classification</a><br>
+<br>
+<a href="/inv/add-classification">Add New Classification</a>
+<br>
 <a href="/inv/add-inventory">Add New Vehicle</a>
-<ul>
-  <% classifications.forEach(classification => { %>
-    <li><%= classification.classification_name %></li>
-  <% }) %>
-</ul>
+<br>
+<br>
+<h2>Managing Inventory</h2>
+<br>
+<p>Choose a classification to see those inventory items.</p>
+<%- classificationSelect %>
+
+<table id="inventoryDisplay"></table>
+<noscript>Javascript must be enabled to use this page</noscript>
+
+
+
+<script src="../../js/inventory.js"></script>
+
+<script>
+  const pswdBtn = document.querySelector('#pwordBtn');
+  pswdBtn.addEventListener('click', function(){
+      const pswdInput = document.querySelector('#pword');
+      const type = pswdInput.getAttribute('type');
+      if (type == 'password'){
+          pswdInput.setAttribute('type', 'text');
+          pswdBtn.innerHTML = "&#128275;"
+      }
+      else{
+          pswdInput.setAttribute('type', 'password');
+          pswdBtn.innerHTML = "&#128274;"
+      }
+  })
+</script>

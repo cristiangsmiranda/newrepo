@@ -1,20 +1,20 @@
 <% if (title) { %>
-    <h1><%= title %></h1>
-    <% } else {
-      res.redirect('/')
-    } %>
+  <h1><%= title %></h1>
+  <% } else {
+    res.redirect('/')
+  } %>
 
 <%- messages() %>
 
-<div class="management">
-    <h2>Welcome <%- user.name %></h2>
-    <p>You're logged in</p>
-    <a href="/account/update">Edit Account Information</a>
+<div class="management"><br>
+  <h2>Welcome <%- user.name %></h2><br>
+  <p>You're logged in</p><br>
+  <a href="/account/update">Edit Account Information</a><br>
+<br>
+  <% if (user.userType == "Admin" || user.userType == "Employee") { %>
+    <h3>Inventory Management</h3>
+    <a href="/inv/">Manage Inventory</a>
+    <% } %>
 
-    <% if (user.userType == "Admin" || user.userType == "Employee") { %>
-      <h3>Inventory Management</h3>
-      <a href="/inv/">Manage Inventory</a>
-      <% } %>
   
-    
 </div>

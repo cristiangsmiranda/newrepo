@@ -1,20 +1,23 @@
 <% if (title) { %>
   <h1><%= title %></h1>
-<% } %>
+  <% } else {
+    res.redirect('/')
+  } %>
 
 <%- messages() %>
 
 <% if (errors) { %>
   <ul class="notice">
-    <% errors.array().forEach(error => { %>
-      <li><%= error.msg %></li>
-    <% }) %>
-  </ul>
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
 <% } %>
 
-  
-<div class="register-form">
-    <form id="register-form" action="/account/register" method="post">
+<div class="login-form">
+  <p>All fields are required</p>
+  <form id="registerForm" action="/account/register" method="post">
+      <fieldset>
         <label for="first_name">First Name:
           <input type="text" id="account_firstname" name="account_firstname" required value="<%= locals.account_firstname %>">
         </label>
@@ -29,14 +32,16 @@
           <span id="pwordBtn">&#128274;</span>
         </label>
         <span>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</span>
-        <button type="submit">Register</button>
-    </form>
+        <button type="submit">Register</button> 
+      </fieldset>       
+  </form>
 </div>
+
 <script>
   const pswdBtn = document.querySelector('#pwordBtn');
   pswdBtn.addEventListener('click', function(){
-    const pswdInput = document.querySelector('#account_password');
-    const type = pswdInput.getAttribute('type');
+      const pswdInput = document.querySelector('#accountPassword');
+      const type = pswdInput.getAttribute('type');
       if (type == 'password'){
           pswdInput.setAttribute('type', 'text');
           pswdBtn.innerHTML = "&#128275;"

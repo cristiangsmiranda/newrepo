@@ -6,7 +6,7 @@ const { body, validationResult } = require("express-validator")
 
   /*  **********************************
   *  Registration Data Validation Rules
-  * ************************************/
+  * ********************************* */
 validate.classificationRules = () => {
   return [   
     // valid classification is required and cannot already exist in the database
@@ -26,9 +26,9 @@ validate.classificationRules = () => {
 };
 
 
-  /* ***************************************************
+  /* ******************************
  * Check data and return errors or continue to management
- * *****************************************************/
+ * ***************************** */
 validate.checkClassData = async (req, res, next) => {
     const { classification_name } = req.body
     let errors = []
@@ -110,21 +110,21 @@ validate.checkClassData = async (req, res, next) => {
   };
   
   
-    /* ****************************************************
+    /* ******************************
    * Check data and return errors or continue to management
-   * ******************************************************/
+   * ***************************** */
   validate.checkInventoryData = async (req, res, next) => {
       const { classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body
       let errors = []
       errors = validationResult(req)
       if (!errors.isEmpty()) {
         let nav = await utilities.getNav()
-        let classifications = await invModel.getClassifications();
+        let classificationList = await utilities.buildClassificationList(classification_id);
         res.render("inventory/add-inventory", {
           errors,
           title: "Add New Vehicle",
           nav,
-          classifications,
+          classificationList,
           inv_make,
           inv_model,
           inv_description,
@@ -141,9 +141,9 @@ validate.checkClassData = async (req, res, next) => {
       next()
     }
   
-    /* ***************************************************
+    /* ******************************
    * Check data and return errors or continue to edit view
-   * *****************************************************/
+   * ***************************** */
     validate.checkUpdateData = async (req, res, next) => {
       const { inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, inv_id } = req.body
       let errors = []
@@ -238,18 +238,5 @@ validate.checkClassData = async (req, res, next) => {
         .withMessage('Color can only contain alphanumeric characters and spaces.')
       ]
     };
-
-    validate.newNoteRules = () => {
-      return [   
-  
-        body('fav_inv_note')
-        .trim()
-        .notEmpty()
-        .isLength({ min: 10, max: 100 })
-        .withMessage('Note must be between 10 and 300 characters.'),
-
-      ]
-    }
-
 
 module.exports = validate
