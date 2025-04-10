@@ -16,23 +16,29 @@
 
   <div class="login-form">
     <form id="updateForm" action="/account/updateAccount" method="post">
-        <fieldset>
-            <label for="first_name">First Name:
-                <input type="text" name="account_firstname" id="account_firstname" required value="<%= locals.account_firstname %>"></label>
-            <label for="last_name">Last Name:
-                <input type="text" name="account_lastname" id="account_lastname" required value="<%= locals.account_lastname %>"></label>
-            <label for="email">Email:
-                <input type="email" name="account_email" id="account_email" required placeholder="Enter a valid email address" value="<%= locals.account_email %>"></label>
-            <button type="submit">Update</button>    
-            <input type="hidden" name="account_id" <% if (user) { %> value="<%= user.userId %>" <% } %>> 
-        </fieldset>       
+      <fieldset>
+        <label for="account_firstname">First Name:
+          <input type="text" name="account_firstname" id="account_firstname" required value="<%= locals.account_firstname %>">
+        </label>
+  
+        <label for="account_lastname">Last Name:
+          <input type="text" name="account_lastname" id="account_lastname" required value="<%= locals.account_lastname %>">
+        </label>
+  
+        <label for="account_email">Email:
+          <input type="email" name="account_email" id="account_email" required placeholder="Enter a valid email address" value="<%= locals.account_email %>">
+        </label>
+  
+        <button type="submit">Update</button>    
+        <input type="hidden" name="account_id" <% if (user) { %> value="<%= user.userId %>" <% } %>> 
+      </fieldset>       
     </form>
-</div>
+  </div>
+  
 <br>
 <div class="login-form">    
     <form id="updatePasswordForm" action="/account/updatePassword" method="post">
         <fieldset>
-            <legend></legend>
             <p>*note your original password will be changed</p>
             <label class="account-label">Password<input type="password" name="account_password" id="accountPassword" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"><span id="pwordBtn">&#128274;</span></label>
             <span>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</span>

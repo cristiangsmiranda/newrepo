@@ -1,0 +1,45 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+  <% } else {
+    res.redirect('/')
+  } %>
+  
+  <% if (messages && messages.length > 0) { %>
+    <div class="flash-message">
+      <% messages.forEach(function(msg) { %>
+        <p><%= msg %></p>
+      <% }) %>
+    </div>
+  <% } %>
+  
+  <% if (errors) { %>
+    <ul class="notice">
+      <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+  
+  <div class="login-form">
+    <form action="/account/apply" method="post" class="form-container">
+      <fieldset>
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" name="fullname" required value="<%= user.name %>">
+  
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required value="<%= user.email || '' %>">
+  
+        <label for="phone">Phone</label>
+        <input type="text" id="phone" name="phone" required>
+  
+        <label for="area">Area of Interest</label>
+        <input type="text" id="area" name="area" required placeholder="Ex: Customer Service, Support, Development...">
+  
+        <label for="about">Tell us a bit about yourself</label>
+        <textarea id="about" name="about" rows="5" required></textarea>
+  
+        <button type="submit">Send Application</button>
+      </fieldset>
+    </form>
+  </div>
+  

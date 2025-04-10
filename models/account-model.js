@@ -77,4 +77,41 @@ async function updatePassword(account_password, account_id) {
 }
 
 
-module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, getAccountById, updateAccount, updatePassword }
+
+/* *****************************
+* Promote Client to Employee
+* ***************************** */
+async function promoteToEmployee(account_id) {
+  try {
+    const sql = "UPDATE account SET account_type = 'Employee' WHERE account_id = $1 RETURNING *"
+    const result = await pool.query(sql, [account_id])
+    return result.rows[0]
+  } catch (error) {
+    return error.message
+  }
+}
+
+
+
+async function submitApplication(fullname, email, phone, area, about) {
+  try {
+    const sql = `
+      INSERT INTO application (name, email, phone, area_of_interest, about)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *;
+    `
+    const result = await pool.query(sql, [fullname, email, phone, area, about])
+    return result.rows[0]
+  } catch (error) {
+    throw new Error("Database error: " + error.message)
+  }
+}
+
+
+module.exports = { registerAccount, 
+  checkExistingEmail, 
+  getAccountByEmail, 
+  getAccountById, 
+  updateAccount, 
+  updatePassword, 
+  promoteToEmployee, submitApplication }

@@ -15,6 +15,13 @@
     <h3>Inventory Management</h3>
     <a href="/inv/">Manage Inventory</a>
     <% } %>
-
+    <% if (user.userType === "Client") { %>
+      <div class="work-with-us">
+        <p>Do you want to work with us? 
+          <a href="/account/apply">Click here</a> and fill in this form to apply.
+        </p>
+      </div>
+    <% } %>
+    
   
 </div>

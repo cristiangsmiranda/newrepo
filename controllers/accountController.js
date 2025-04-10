@@ -33,13 +33,15 @@ async function buildRegister(req, res, next) {
 * *************************************** */
 async function buildManagement(req, res, next) {
   let nav = await utilities.getNav()
+  const userType = req.session.user?.userType || "Guest" // segurança extra
   res.render("account/account-management", {
     title: "Account Management",
     nav,
     errors: null,
-    
+    userType,
   })
 }
+
 
 /* ****************************************
 *  Deliver Upadate Account view
@@ -246,4 +248,43 @@ async function updatePassword(req, res) {
   }
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildManagement, accountLogout, buildAccountManagement, updateAccount, updatePassword }
+/* ****************************************
+*  Deliver Application Form view
+* *************************************** */
+async function buildApply(req, res) {
+  let nav = await utilities.getNav()
+  res.render("account/apply", {
+    title: "Work with us",
+    nav,
+    errors: null,
+    user: req.session.user,
+    messages: req.flash("notice"),
+  })
+}
+
+async function processApplication(req, res) {
+  const { fullname, email, phone, area, about } = req.body
+
+  try {
+    await accountModel.submitApplication(fullname, email, phone, area, about)
+    req.flash("notice", "Your application has been sent successfully!")
+    res.redirect("/account/apply")
+  } catch (error) {
+    console.error(error)
+    req.flash("notice", "Error sending the application. Please try again.")
+    res.redirect("/account/apply")
+  }
+}
+
+
+
+module.exports = { buildLogin, 
+  buildRegister, 
+  registerAccount, 
+  accountLogin, 
+  buildManagement, 
+  accountLogout, 
+  buildAccountManagement, 
+  updateAccount, 
+  updatePassword, 
+  buildApply, processApplication }
